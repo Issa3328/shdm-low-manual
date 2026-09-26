@@ -17,13 +17,6 @@ const SUPABASE_ANON_KEY = "sb_publishable_KEoCJtCLyGTJjqB1phGy2Q_v3PftUYH";
 const FLOW              = "low_manual";
 const SURVEY_RETURN_URL = "https://www.surveymonkey.ca/r/5C7MWMD";
 
-// Visibility / Automation for this condition
-const isLow      = true;
-const isMed      = false;
-const isHigh     = false;
-const isLowAuto  = true;
-const isMedAuto  = false;
-const isHighAuto = false;
 const MODE_LABEL = "Info: Low · Control: Manual";
 const VISIBILITY = "low";   // low | medium | high
 const AUTOMATION = "manual";   // manual | assisted | automated
@@ -268,7 +261,6 @@ export default function App() {
   const [sidebarVisible,  setSidebarVisible]  = useState(false);
   const [currentTask,     setCurrentTask]     = useState(0);
   const [doneTasks,       setDoneTasks]       = useState([]);
-  const [orderNum,        setOrderNum]        = useState("");
 
   // sidebar/task bar follow the tracker (single source of truth)
   const syncTasks = (finished) => {
@@ -369,7 +361,6 @@ export default function App() {
     const num = `SH-${Math.floor(Math.random() * 90000) + 10000}`;
     tracker.action("order_place", { page:"order", target:selectedOffer?.name, details:{ order_num:num } });
     syncTasks(tracker.complete(4, "order_place", { offer:selectedOffer?.name, orderPlaced:true }));
-    setOrderNum(num);
     setStage("complete");
     setTimeout(() => {
       const url = `${SURVEY_RETURN_URL}?session=${encodeURIComponent(tracker.participantId)}`;
